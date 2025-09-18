@@ -2,7 +2,7 @@ import os
 import shutil
 from md_to_html import markdown_to_html_node, extract_title
 
-def copy_dir(src_dir='./static', dest_dir='./public'):
+def copy_dir(src_dir='./static', dest_dir='./docs'):
     """
     Clears all contents of the specified public directory.
 
