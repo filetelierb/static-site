@@ -22,7 +22,7 @@ def copy_dir(src_dir='./static', dest_dir='./public'):
         else:
             shutil.copy(src_path, dest_path)
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} using template {template_path} to {dest_path}")
 
     from_file = open(from_path, 'r')
@@ -36,6 +36,7 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(content)
 
     final_html = template.replace("{{ Content }}", html_content).replace("{{ Title }}", title)
+    final_html = final_html.replace('href="/', f'href="{basepath}').replace('src="/', f'src="{basepath}')
 
     dest_dir = os.path.dirname(dest_path)
     if not os.path.exists(dest_dir):
@@ -48,14 +49,14 @@ def generate_page(from_path, template_path, dest_path):
     template_file.close()
     print(f"Page generated at {dest_path}")
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     entries = os.listdir(dir_path_content)
     for entry in entries:
         src_path = os.path.join(dir_path_content, entry)
         dest_path = os.path.join(dest_dir_path, entry)
         if os.path.isdir(src_path):
-            generate_pages_recursive(src_path, template_path, dest_path)
+            generate_pages_recursive(src_path, template_path, dest_path, basepath)
         elif entry.endswith('.md'):
             dest_file_path = dest_path[:-3] + '.html'  # Change .md to .html
-            generate_page(src_path, template_path, dest_file_path)
+            generate_page(src_path, template_path, dest_file_path, basepath)
 
