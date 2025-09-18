@@ -1,7 +1,6 @@
-from textnode import TextNode, TextType
-
+from file_management import copy_dir, generate_pages_recursive
 def main():
-    text_node_obj = TextNode("Hello, World!", TextType.LINK, "https://www.boot.dev")
-    print(text_node_obj)
-
+    copy_dir()
+    generate_pages_recursive('./content', './template.html', './public')
+   
 main()
